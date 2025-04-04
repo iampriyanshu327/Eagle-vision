@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ZenSafe Crime Lifecycle UI</title>
+        <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+
+    </head>
+    <body>
+        <h2>🛡️ ZenSafe - Crime Lifecycle Management</h2>
+
+        <div class="card">
+            <h3>Connect Wallet</h3>
+            <button onclick="connectContract()">Connect MetaMask</button>
+            <div id="connectionStatus" class="disconnected">
+                Not connected. Please connect your MetaMask wallet.
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Create Case</h3>
+            <input id="location" placeholder="Location" />
+            <input id="videoHash" placeholder="Video Hash" />
+            <input
+                id="dateTime"
+                placeholder="DateTime (e.g., 2025-03-21 17:30)"
+            />
+            <button onclick="createCase()">Create Case</button>
+        </div>
+
+        <div class="card">
+            <h3>Add Evidence</h3>
+            <input id="evidenceCaseId" placeholder="Case ID" />
+            <input id="mediaHash" placeholder="Media Hash" />
+            <input id="evidenceDescription" placeholder="Description" />
+            <input id="evidenceDateTime" placeholder="DateTime" />
+            <button onclick="addEvidence()">Add Evidence</button>
+        </div>
+
+        <div class="card">
+            <h3>Add Query</h3>
+            <input id="queryCaseId" placeholder="Case ID" />
+            <input id="question" placeholder="Question" />
+            <input id="answer" placeholder="Answer" />
+            <button onclick="addQuery()">Add Query</button>
+        </div>
+
+        <div class="card">
+            <h3>Close Case</h3>
+            <input id="closeCaseId" placeholder="Case ID" />
+            <button onclick="closeCase()">Close Case</button>
+        </div>
+
+        <div class="card">
+            <h3>Assign Authority</h3>
+            <input id="authorityCaseId" placeholder="Case ID" />
+            <input
+                id="authorityAddress"
+                placeholder="Authority Wallet Address"
+            />
+            <button onclick="assignAuthority()">Assign Authority</button>
+        </div>
+
+        <div class="card">
+            <h3>View Case Details</h3>
+            <input id="caseIdToView" placeholder="Case ID" />
+            <button onclick="getCase()">Get Case</button>
+            <pre id="caseResult"></pre>
+        </div>
+
+        <div class="card">
+            <h3>View Evidences</h3>
+            <input id="evidenceViewCaseId" placeholder="Case ID" />
+            <button onclick="getEvidences()">Get Evidences</button>
+            <pre id="evidenceResult"></pre>
+        </div>
+
+        <div class="card">
+            <h3>View Queries</h3>
+            <input id="queryViewCaseId" placeholder="Case ID" />
+            <button onclick="getQueries()">Get Queries</button>
+            <pre id="queryResult"></pre>
+        </div>
+
+    </body>
+</html>
