@@ -16,10 +16,10 @@ const Logo = () => {
 
       {/* Logo Text */}
       <div className="text-xl font-bold tracking-wide mt-1">
-        <span>
+        <span className="text-gradient bg-gradient-to-t from-[#00E68F] via-[#00B378] to-[#007F5E] bg-clip-text text-transparent">
           ZEN
         </span>{" "}
-        <span>
+        <span className="text-gradient bg-gradient-to-b from-[#00E68F] via-[#00B378] to-[#007F5E] bg-clip-text text-transparent">
           SAFE
         </span>
       </div>
@@ -39,10 +39,13 @@ const SIDEBAR_ITEMS = [
     href: "/",
   },
   
-  // { name: "Alerts", icon: AlertCircle, color: "#FF0000", href: "/alerts", count: 0 },
+  { name: "Alerts", icon: AlertCircle, color: "#FF0000", href: "/alerts", count: 0 },
   { name: "CaseMap", icon: ChartNetwork, color: "#4169E1", href: "/casemap" },
   // { name: "Anomaly Graph", icon: GitGraph, color: "#FF0000", href: "/anomalygraph"},
-  // { name: "Query Retriver", icon: FaRobot, color: "#8B5CF6", href: "/chatbot"},
+  { name: "Query Retriver", icon: FaRobot, color: "#8B5CF6", href: "/chatbot"},
+  { name: "Notify", icon: Bell, color: "#8B5CF6", href: "/notify" },
+  { name: "Nearest CCTV", icon: Cctv, color: "#3B82F6", href: "/nearest-cctvs" },
+  { name: "Case Statistics", icon: Users, color: "#EC4899", href: "/case-statistics" },
   { name: "Settings", icon: Settings, color: "#6EE7B7", href: "/settings" },
   { name: "Testing", icon: TestTube, color: "#6EE7B7", href: "/testing" },
 ];
@@ -63,9 +66,9 @@ const Sidebar = () => {
     };
 
     fetchAlertCount();
-  });
+  }, []);
 
-  // const audio = new Audio("alert audio to be added here!");
+  const audio = new Audio("/path-to-your-audio-file/alert-sound.mp3");
 
   useEffect(() => {
     if (alertCount > 0) {

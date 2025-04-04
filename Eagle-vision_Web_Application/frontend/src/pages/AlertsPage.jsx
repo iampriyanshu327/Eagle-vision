@@ -26,6 +26,10 @@ const AlertsPage = () => {
     }
   };
 
+  useEffect(() => {
+    fetchAlerts();
+  }, []);
+
   const handleLocateAnomaly = (alert) => {
     if (!alert.coordinates) {
       alert("Coordinates not available for this alert.");
@@ -47,6 +51,9 @@ const AlertsPage = () => {
     });
   };
 
+  const handleNotify = () => {
+    navigate("/notify");
+  };
 
   const handleDeleteAlert = async (id) => {
     try {
@@ -137,6 +144,83 @@ const AlertsPage = () => {
           </div>
         )}
 
+        {showPopup && selectedAlert && (
+          <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+            <motion.div
+              className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg shadow-2xl p-6 w-full max-w-5xl"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+            >
+              <button className="absolute top-3 right-3 text-gray-600 hover:text-gray-900" onClick={handlePopupClose}>
+                <FiX size={24} />
+              </button>
+              <h2 className="text-2xl font-bold text-white text-center mb-4">Alert Details</h2>
+
+              {showMap ? (
+                <div className="relative w-full mb-6" style={{ paddingBottom: "56.25%" }}>
+                  <iframe
+                    src={selectedAlert.googleMapsUrl}
+                    className="absolute top-0 left-0 w-full h-full rounded-md shadow-md"
+                    frameBorder="0"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              ) : showFootage ? (
+                <div className="relative w-full mb-6" style={{ paddingBottom: "56.25%" }}>
+                  <video
+                    className="absolute top-0 left-0 w-full h-full rounded-md shadow-md"
+                    controls
+                    src={videoSrc}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              ) : (
+                <div className="mt-6 w-full h-[400px]"></div>
+              )}
+
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                <button
+                  className="flex items-center justify-center bg-gray-600 hover:bg-gray-600 text-white py-3 px-6 rounded-md shadow-lg transition"
+                  onClick={() => handleLocateAnomaly(selectedAlert)}
+                >
+                  <FiMapPin className="w-6 h-6 mr-2" /> Locate Anomaly
+                </button>
+
+                <button
+                  className="flex items-center justify-center bg-gray-600 hover:bg-grey-600 text-white py-3 px-6 rounded-md shadow-lg transition"
+                  onClick={() => handleViewNearestCCTV(selectedAlert.coordinates, selectedAlert.location)}
+                >
+                  <FiCamera className="w-6 h-6 mr-2" /> View Nearest CCTV
+                </button>
+
+                <button
+                  className="flex items-center justify-center bg-gray-600 hover:bg-grey-600 text-white py-3 px-6 rounded-md shadow-lg transition"
+                  onClick={handleNotify}
+                >
+                  <FiBell className="w-6 h-6 mr-2" /> Notify
+                </button>
+
+                <button
+                  className="flex items-center justify-center bg-gray-600 hover:bg-grey-600 text-white py-3 px-6 rounded-md shadow-lg transition"
+                  onClick={() => navigate("/casemap")}
+                >
+                  <ChartNetworkIcon className="w-6 h-6 mr-2" /> Case Map
+                </button>
+              </div>
+
+              <div className="flex justify-center mt-4">
+                <button
+                  className="bg-gray-500  hover:bg-gray-800 text-gray-300 py-2 px-4 rounded-md shadow-lg transition"
+                  onClick={() => handleFootageView(selectedAlert.footageUrl)}
+                >
+                  View Footage
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
       </main>
     </div>
   );

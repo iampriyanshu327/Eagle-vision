@@ -2,18 +2,18 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { motion } from "framer-motion";
 
 const alertData = [
-	{ name: "May", alerts: 120 },
-	{ name: "Jun", alerts: 100 },
-	{ name: "Jul", alerts: 150 },
-	{ name: "Aug", alerts: 130 },
-	{ name: "Sep", alerts: 180 },
-	{ name: "Oct", alerts: 210 },
-	{ name: "Nov", alerts: 200 },
-	{ name: "Dec", alerts: 190 },
-	{ name: "Jan", alerts: 220 },
-	{ name: "Feb", alerts: 210 },
-	{ name: "Mar", alerts: 230 },
-	{ name: "Apr", alerts: 250 },
+	{ name: "Jul", alerts: 120 },
+	{ name: "Aug", alerts: 100 },
+	{ name: "Sep", alerts: 150 },
+	{ name: "Oct", alerts: 130 },
+	{ name: "Nov", alerts: 180 },
+	{ name: "Dec", alerts: 210 },
+	{ name: "Jan", alerts: 200 },
+	{ name: "Feb", alerts: 190 },
+	{ name: "Mar", alerts: 220 },
+	{ name: "Apr", alerts: 210 },
+	{ name: "May", alerts: 230 },
+	{ name: "Jun", alerts: 250 },
 ];
 
 const AlertOverviewChart = () => {

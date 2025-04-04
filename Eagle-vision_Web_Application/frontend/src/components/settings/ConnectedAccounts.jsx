@@ -74,9 +74,9 @@ const ConnectedAccounts = () => {
 					</button>
 				</div>
 			))}
-			<button className='mt-4 flex items-center text-indigo-400 hover:text-indigo-300 transition duration-200'>
+			{/* <button className='mt-4 flex items-center text-indigo-400 hover:text-indigo-300 transition duration-200'>
 				<Plus size={18} className='mr-2' /> Add Account
-			</button>
+			</button> */}
 		</SettingSection>
 	);
 };
