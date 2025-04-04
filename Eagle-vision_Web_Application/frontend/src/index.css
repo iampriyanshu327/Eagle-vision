@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .animate-blink {
+    animation: blink 1s infinite;
+  }
+  
+  * {
+    cursor: url('https://pngimg.com/d/cursor_PNG61.png'), auto;
+  }
+  
+  * {
+    caret-color: transparent; /* Hide the caret */
+    user-select: none;        /* Prevent text selection */
+  }
+
+  
+  /* Apply custom cursor globally */
+
+
+
+/* body.bg-gray-900 {
+  background-color: #1a202c;
+  color: #fff;
+}
+
+body.bg-white {
+  background-color: #fff;
+  color: #000;
+} */
+
+.select-text {
+  user-select: text; /* Allows text selection */
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+.typing-indicator {
+  display: flex;
+  justify-content: left;
+  gap: 5px;
+  padding: 10px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: #ccc;
+  border-radius: 50%;
+  animation: wave 1.5s infinite ease-in-out;
+}
+
+/* add child syntax */
+
+.cube3d {
+  transform-style: preserve-3d;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.1);
+  perspective: 800px;
+  transition: transform 0.5s ease;
+  border-radius: 1rem;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(-6deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(0deg);
+  }
+}
+
+
+@keyframes dashFlow {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-dna {
+  stroke-dasharray: 10;
+  animation: dashFlow 6s linear infinite;
+}
+
+
+
+
+
+
+/* @keyframes wave {
+  0%, 80%, 100% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 1;
+  }
+} */
