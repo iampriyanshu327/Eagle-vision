@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# C extensions
+# extensions for c
 *.so
 
 # Distribution / packaging
@@ -127,7 +127,7 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
+# Environment 
 .env
 .venv
 env/
@@ -160,17 +160,17 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# PyCharm
+# Pycharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
+#  and can be added to the global gitignore or merged into this file.  For a more nuclear 
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
 # PyPI configuration file
 .pypirc
 
-# Folders
+# folders
 data/
 chroma_db/
 venv/

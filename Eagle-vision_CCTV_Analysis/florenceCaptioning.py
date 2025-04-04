@@ -6,7 +6,7 @@ from transformers import AutoProcessor, AutoModelForCausalLM
 from tqdm import tqdm
 from multiprocessing import freeze_support
 
-# Load the model and processor once (globally)
+# Load the model
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
 torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32
 
@@ -92,3 +92,4 @@ if __name__ == '__main__':
         video_path=rf"C:\Users\iampr\OneDrive\Desktop\Hackverse_2025-Team_Matrix-main\Hackverse_2025-Team_Matrix-main\Zensafe_Web_Application\frontend\public\videos\1.mp4",
         place="Hello"
     )
+
