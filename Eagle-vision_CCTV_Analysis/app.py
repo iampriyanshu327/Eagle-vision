@@ -55,7 +55,7 @@ def update_vector_store(place):
 
     Chroma.from_documents(documents=splits, embedding=embeddings, persist_directory=CHROMA_DB_DIR)
     
-    return {"message": "store updated"}, 200
+    return {"message": "Vector store updated successfully"}, 200
 
 
 def get_response_from_mistral(query):
@@ -73,6 +73,9 @@ def get_response_from_mistral(query):
             "You are ZenSafe Bot, an AI assistant designed to aid law enforcement in evidence retrieval from CCTV footage. "
             "You are provided with textual descriptions of CCTV footage, captured at one-second intervals. "
             "Law enforcement officers will query this data to gather evidence related to crimes. "
+            "Each description includes a timestamp and a detailed caption of the scene. "
+            "Your task is to accurately respond to queries by providing relevant timestamps and descriptions only if necessary. "
+            "Ensure your responses are concise, precise, and directly address the officer's query."
         )
         
         human_prompt = f"""
@@ -97,6 +100,51 @@ def get_response_from_mistral(query):
     except Exception as e:
         return {"error": str(e)}, 500
     
+
+
+@app.route("/updateVectorStore", methods=["POST"])
+def update_vector_store_api():
+    data = request.json
+    place = data.get("place")
+    if not place:
+        return {"error": "Missing 'place' parameter"}, 400
+    return update_vector_store(place)
+
+@app.route("/getResponse", methods=["POST"])
+def get_response_api():
+    data = request.json
+    query = data.get("query")
+    if not query:
+        return {"error": "Missing 'query' parameter"}, 400
+    return get_response_from_mistral(query)
+
+@app.route("/createFlorenceDocument", methods=["POST"])
+def create_florence_document():
+    if "video" not in request.files or "place" not in request.form:
+        return {"error": "Missing video file or 'place' attribute"}, 400
+    
+    video = request.files["video"]
+    place = request.form["place"].strip()
+    
+    if video.filename == "":
+        return {"error": "No selected file"}, 400
+    
+    filename = secure_filename(f"{place}.mp4")
+    save_path = os.path.join(FOOTAGE_DIR, filename)
+    
+    video.save(save_path)
+    
+    generateVideoCaptionCorpus(video_path=save_path,place=place)
+    
+    return {"message": "Video uploaded successfully", "file_path": save_path}, 200
+
+@app.route("/getCameras", methods=["GET"])
+def get_cameras():
+    files = [f for f in os.listdir(DATA_DIR) if f.endswith(".txt")]
+    files = [file.split('.')[0] for file in files]
+    return jsonify({"cameras": files})
+
+# to be continued
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5010, debug=True)

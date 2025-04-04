@@ -43,6 +43,49 @@ def captionSingleFrame(frame):
     output = processor.post_process_generation(generated_text, task=task, image_size=(frame.width, frame.height))
     return output['<MORE_DETAILED_CAPTION>']
 
+def generateVideoCaptionCorpus(video_path, place):
+    """Processes a video frame by frame and generates captions."""
+    os.makedirs("data/documents", exist_ok=True)
+
+    cap = cv2.VideoCapture(video_path)
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    frame_count = 0
+    captions = []
+
+    with tqdm(total=total_frames, desc="Processing Video") as pbar:
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            if frame_count % fps == 0:  # Process one frame per second
+                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                frame_pil = Image.fromarray(frame_rgb)
+
+                try:
+                    caption = captionSingleFrame(frame_pil)
+                    timestamp = frame_count // fps
+                    hours = timestamp // 3600
+                    minutes = (timestamp % 3600) // 60
+                    seconds = timestamp % 60
+                    timestamp_str = f"[{hours}:{minutes:02}:{seconds:02}]"
+                    captions.append(f"Timestamp: {timestamp_str} || Place: {place} || Caption: {caption}")
+                except Exception as e:
+                    print(f"Error processing frame at {frame_count}: {str(e)}")
+
+            frame_count += 1
+            pbar.update(1)
+
+    cap.release()
+
+    output_file = os.path.join("data/documents", f"{place}.txt")
+    with open(output_file, 'w', encoding='utf-8') as f:
+        for caption in captions:
+            f.write(caption + '\n')
+
+    print(f"Captions saved to {output_file}")
+
 if __name__ == '__main__':
     freeze_support()
     generateVideoCaptionCorpus(
