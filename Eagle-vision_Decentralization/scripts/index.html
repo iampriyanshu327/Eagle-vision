@@ -6,6 +6,56 @@
         <title>ZenSafe Crime Lifecycle UI</title>
         <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                padding: 20px;
+                background: #f4f4f4;
+            }
+            h2 {
+                color: #333;
+            }
+            input,
+            button,
+            textarea {
+                padding: 8px;
+                margin: 5px 0;
+                width: 100%;
+            }
+            .card {
+                background: white;
+                padding: 20px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            #connectionStatus {
+                margin-top: 10px;
+                padding: 8px;
+                border-radius: 4px;
+            }
+            .connected {
+                background-color: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            }
+            .disconnected {
+                background-color: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+            }
+            button {
+                cursor: pointer;
+                background-color: #4caf50;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            button:hover {
+                background-color: #45a049;
+            }
+        </style>
     </head>
     <body>
         <h2>🛡️ ZenSafe - Crime Lifecycle Management</h2>
@@ -83,5 +133,358 @@
             <pre id="queryResult"></pre>
         </div>
 
+        <script>
+            const contractAddress = "0x1e58d4718138a8332C978F1712d314A9ffdd508a" // <-- Replace this if needed
+            const abi = [
+                "function createCase(string,string,string) public",
+                "function addEvidence(string,string,string,uint256) public",
+                "function addQuery(string,string,uint256) public",
+                "function closeCase(uint256) public",
+                "function assignAuthority(uint256,address) public",
+                "function getCase(uint256) view returns (uint256,string,string,string,bool)",
+                "function getEvidences(uint256) view returns (tuple(uint256,string,string,string)[])",
+                "function getQueries(uint256) view returns (tuple(uint256,string,string)[])",
+            ]
+
+            let contract
+            let provider
+            let signer
+            let connectionStatusElement =
+                document.getElementById("connectionStatus")
+
+            // Check if MetaMask is already connected on page load
+            window.addEventListener("load", function () {
+                // Only try to connect if MetaMask is available
+                if (typeof window.ethereum !== "undefined") {
+                    // Check if already connected
+                    window.ethereum
+                        .request({ method: "eth_accounts" })
+                        .then((accounts) => {
+                            if (accounts.length > 0) {
+                                // User is already connected
+                                connectContract()
+                            }
+                        })
+                        .catch((err) => {
+                            console.error("Error checking accounts:", err)
+                        })
+                }
+            })
+
+            async function connectContract() {
+                // Clear any previous connection status
+                console.log("Attempting to connect to MetaMask...")
+                connectionStatusElement =
+                    document.getElementById("connectionStatus")
+
+                if (typeof window.ethereum === "undefined") {
+                    console.error("MetaMask not detected")
+                    connectionStatusElement.className = "disconnected"
+                    connectionStatusElement.textContent =
+                        "❌ MetaMask not detected. Please install MetaMask extension."
+                    alert(
+                        "❌ MetaMask not detected. Please install MetaMask extension.",
+                    )
+                    return
+                }
+
+                try {
+                    // Request account access
+                    const accounts = await window.ethereum.request({
+                        method: "eth_requestAccounts",
+                    })
+                    console.log("Connected accounts:", accounts)
+
+                    // Create provider
+                    provider = new ethers.providers.Web3Provider(
+                        window.ethereum,
+                    )
+
+                    console.log("Provider created")
+
+                    // Get network information
+                    const network = await provider.getNetwork()
+                    console.log(
+                        "Connected to network:",
+                        network.name,
+                        "Chain ID:",
+                        network.chainId,
+                    )
+
+                    // Get signer
+                    signer = await provider.getSigner()
+
+                    const signerAddress = await signer.getAddress()
+                    console.log("Signer address:", signerAddress)
+
+                    // Create contract instance
+                    contract = new ethers.Contract(contractAddress, abi, signer)
+                    console.log("✅ Connected to contract at", contractAddress)
+
+                    // Update status
+                    connectionStatusElement.className = "connected"
+                    connectionStatusElement.textContent = `✅ Connected: ${signerAddress.substring(0, 6)}...${signerAddress.substring(signerAddress.length - 4)} on ${network.name}`
+
+                    // Add event listener for account changes
+                    window.ethereum.on("accountsChanged", (accounts) => {
+                        console.log("Account changed to:", accounts)
+                        if (accounts.length === 0) {
+                            // User disconnected all accounts
+                            connectionStatusElement.className = "disconnected"
+                            connectionStatusElement.textContent =
+                                "Wallet disconnected. Please connect your MetaMask wallet."
+                        } else {
+                            // Reconnect with new account
+                            connectContract()
+                        }
+                    })
+
+                    // Add event listener for chain changes
+                    window.ethereum.on("chainChanged", () => {
+                        console.log("Network changed, reloading...")
+                        window.location.reload()
+                    })
+                } catch (err) {
+                    console.error("Connection error:", err)
+                    connectionStatusElement.className = "disconnected"
+                    connectionStatusElement.textContent =
+                        "❌ Connection failed: " + err.message
+                    alert("❌ Connection error: " + err.message)
+                }
+            }
+
+            // Add check for contract before each operation
+            function checkContractConnection() {
+                if (!contract) {
+                    alert("❌ Please connect your MetaMask wallet first")
+                    return false
+                }
+                return true
+            }
+
+            async function createCase() {
+                if (!checkContractConnection()) return
+
+                const location = document.getElementById("location").value
+                const videoHash = document.getElementById("videoHash").value
+                const dateTime = document.getElementById("dateTime").value
+
+                if (!location || !videoHash || !dateTime) {
+                    alert("❌ Please fill in all required fields")
+                    return
+                }
+
+                try {
+                    const tx = await contract.createCase(
+                        location,
+                        videoHash,
+                        dateTime,
+                    )
+                    console.log("Transaction sent:", tx.hash)
+                    alert(
+                        "📝 Transaction submitted, waiting for confirmation...",
+                    )
+
+                    await tx.wait()
+                    alert("✅ Case created successfully!")
+                } catch (err) {
+                    console.error("Error creating case:", err)
+                    alert("❌ Error: " + err.message)
+                }
+            }
+
+            async function addEvidence() {
+                if (!checkContractConnection()) return
+
+                const caseId = document.getElementById("evidenceCaseId").value
+                const hash = document.getElementById("mediaHash").value
+                const desc = document.getElementById(
+                    "evidenceDescription",
+                ).value
+                const dt = document.getElementById("evidenceDateTime").value
+
+                if (!caseId || !hash || !desc || !dt) {
+                    alert("❌ Please fill in all required fields")
+                    return
+                }
+
+                try {
+                    const tx = await contract.addEvidence(
+                        caseId,
+                        hash,
+                        desc,
+                        dt,
+                    )
+                    console.log("Transaction sent:", tx.hash)
+                    alert(
+                        "📝 Transaction submitted, waiting for confirmation...",
+                    )
+                    await tx.wait()
+                    alert("✅ Evidence added")
+                } catch (err) {
+                    console.error("Error adding evidence:", err)
+                    alert("❌ Error: " + err.message)
+                }
+            }
+
+            async function addQuery() {
+                if (!checkContractConnection()) return
+
+                const caseId = document.getElementById("queryCaseId").value
+                const q = document.getElementById("question").value
+                const a = document.getElementById("answer").value
+
+                if (!caseId || !q || !a) {
+                    alert("❌ Please fill in all required fields")
+                    return
+                }
+
+                try {
+                    const tx = await contract.addQuery(caseId, q, a)
+                    console.log("Transaction sent:", tx.hash)
+                    alert(
+                        "📝 Transaction submitted, waiting for confirmation...",
+                    )
+                    await tx.wait()
+                    alert("✅ Query added")
+                } catch (err) {
+                    console.error("Error adding query:", err)
+                    alert("❌ Error: " + err.message)
+                }
+            }
+
+            async function closeCase() {
+                if (!checkContractConnection()) return
+
+                const caseId = document.getElementById("closeCaseId").value
+
+                if (!caseId) {
+                    alert("❌ Please enter a Case ID")
+                    return
+                }
+
+                try {
+                    const tx = await contract.closeCase(caseId)
+                    console.log("Transaction sent:", tx.hash)
+                    alert(
+                        "📝 Transaction submitted, waiting for confirmation...",
+                    )
+
+                    await tx.wait()
+                    alert("✅ Case closed")
+                } catch (err) {
+                    console.error("Error closing case:", err)
+                    alert("❌ Error: " + err.message)
+                }
+            }
+
+            async function assignAuthority() {
+                if (!checkContractConnection()) return
+
+                const caseId = document.getElementById("authorityCaseId").value
+                const address =
+                    document.getElementById("authorityAddress").value
+
+                if (!caseId || !address) {
+                    alert("❌ Please fill in all required fields")
+                    return
+                }
+
+                try {
+                    const tx = await contract.assignAuthority(caseId, address)
+                    console.log("Transaction sent:", tx.hash)
+                    alert(
+                        "📝 Transaction submitted, waiting for confirmation...",
+                    )
+
+                    await tx.wait()
+                    alert("✅ Authority Assigned")
+                } catch (err) {
+                    console.error("Error assigning authority:", err)
+                    alert("❌ Error: " + err.message)
+                }
+            }
+
+            async function getCase() {
+                if (!checkContractConnection()) return
+
+                const caseId = document.getElementById("caseIdToView").value
+
+                if (!caseId) {
+                    alert("❌ Please enter a Case ID")
+                    return
+                }
+
+                try {
+                    const result = await contract.getCase(caseId)
+                    document.getElementById("caseResult").textContent =
+                        `Case ID: ${result[0]}\nLocation: ${result[1]}\nVideo Hash: ${result[2]}\nDateTime: ${result[3]}\nIs Open: ${result[4]}`
+                } catch (err) {
+                    console.error("Error getting case:", err)
+                    document.getElementById("caseResult").textContent =
+                        "❌ Error: " + err.message
+                    alert("❌ Error: " + err.message)
+                }
+            }
+
+            async function getEvidences() {
+                if (!checkContractConnection()) return
+
+                const caseId =
+                    document.getElementById("evidenceViewCaseId").value
+
+                if (!caseId) {
+                    alert("❌ Please enter a Case ID")
+                    return
+                }
+
+                try {
+                    const evidences = await contract.getEvidences(caseId)
+                    let out = ""
+                    if (evidences.length === 0) {
+                        out = "No evidences found for this case."
+                    } else {
+                        evidences.forEach((ev) => {
+                            out += `Evidence ID: ${ev[0]}\nHash: ${ev[1]}\nDescription: ${ev[2]}\nDateTime: ${ev[3]}\n---\n`
+                        })
+                    }
+                    document.getElementById("evidenceResult").textContent = out
+                } catch (err) {
+                    console.error("Error getting evidences:", err)
+                    document.getElementById("evidenceResult").textContent =
+                        "❌ Error: " + err.message
+                    alert("❌ Error: " + err.message)
+                }
+            }
+
+            async function getQueries() {
+                if (!checkContractConnection()) return
+
+                const caseId = document.getElementById("queryViewCaseId").value
+
+                if (!caseId) {
+                    alert("❌ Please enter a Case ID")
+                    return
+                }
+
+                try {
+                    const queries = await contract.getQueries(caseId)
+                    let out = ""
+                    if (queries.length === 0) {
+                        out = "No queries found for this case."
+                    } else {
+                        queries.forEach((q) => {
+                            out += `Query ID: ${q[0]}\nQ: ${q[1]}\nA: ${q[2]}\n---\n`
+                        })
+                    }
+                    document.getElementById("queryResult").textContent = out
+                } catch (err) {
+                    console.error("Error getting queries:", err)
+                    document.getElementById("queryResult").textContent =
+                        "❌ Error: " + err.message
+                    alert("❌ Error: " + err.message)
+                }
+            }
+        </script>
     </body>
 </html>
