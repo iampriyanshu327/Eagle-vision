@@ -1,0 +1,57 @@
+backend/
+├── src/
+│   ├── config/          # Configuration files (DB, Mail, Environment variables, etc.)
+│   │   ├── db.js        # MongoDB connection setup
+│   │   ├── mail.js      # Mailer configuration (Nodemailer)
+│   ├── controllers/     # Business logic for routes
+│   │   ├── authorityController.js   # Controller for Authority routes
+│   │   ├── mailController.js        # Controller for sending emails
+│   │   ├── residentController.js    # Controller for Resident routes
+│   ├── models/          # Mongoose Models
+│   │   ├── Authority.js  # Authority model (Mongoose schema)
+│   │   ├── Resident.js   # Resident model (Mongoose schema)
+│   ├── routes/          # API routes
+│   │   ├── authorityRoutes.js  # Routes for Authority operations
+│   │   ├── mailRoutes.js      # Routes for mail operations
+│   │   ├── residentRoutes.js  # Routes for Resident operations
+│   ├── services/        # Logic to send emails or other services
+│   │   ├── emailService.js     # Service for sending alert emails
+│   └── app.js           # Main application entry point (Express setup)
+├── .env                 # Environment variables (e.g., MongoDB URL, email creds)
+├── package.json         # Project dependencies and scripts
+├── .gitignore           # Git ignore file
+└── README.md            # Project documentation
+
+
+Explanation of each folder and file:
+src/config/:
+
+db.js: MongoDB connection logic. Used to handle the connection to the database.
+mail.js: Nodemailer configuration. Handles the SMTP setup for sending emails.
+src/controllers/:
+
+authorityController.js: Contains the business logic for adding and retrieving authority users.
+mailController.js: Contains the business logic for sending alerts via email.
+residentController.js: Contains the business logic for adding and retrieving resident users.
+src/models/:
+
+Authority.js: Mongoose schema for authority users (stores their name, email, locality).
+Resident.js: Mongoose schema for resident users (stores their name, email, locality).
+src/routes/:
+
+authorityRoutes.js: Routes related to authority users (e.g., adding authorities, retrieving authorities).
+mailRoutes.js: Routes related to sending email alerts to residents (e.g., sending alerts).
+residentRoutes.js: Routes related to resident users (e.g., adding residents, retrieving residents).
+src/services/:
+
+emailService.js: Contains the logic for email-related operations, such as sending alerts.
+src/app.js: Entry point for the application where the Express app is configured, routes are set up, and the server is started.
+
+Root-level files:
+.env: Contains environment variables such as MongoDB URI, email credentials, etc.
+
+package.json: Manages project dependencies and scripts for running the backend application.
+
+.gitignore: Specifies files and folders to be ignored by Git (e.g., node_modules/, .env).
+
+README.md: Project documentation file explaining the purpose of the project, setup instructions, etc.
