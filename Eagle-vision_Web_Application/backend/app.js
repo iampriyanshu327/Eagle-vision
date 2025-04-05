@@ -8,7 +8,7 @@ const mailRoutes = require("./src/routes/mailRoutes");
 const dashboardRoutes = require("./src/routes/dashboardRoutes");
 const alertRoutes = require("./src/routes/alertRoutes.js");
 const http = require("http");
-const path = require("path");
+const path = require("path"); 
 
 const { checkAlerts } = require("./src/services/caseService.js");
 dotenv.config()
