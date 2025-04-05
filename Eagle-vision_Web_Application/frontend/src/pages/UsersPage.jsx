@@ -22,13 +22,13 @@ const ContentWithLottie = () => (
     <div className="flex flex-col items-center text-center">
       <img
         src="etherium.png"
-        alt="ZenSafe Logo"
+        alt="Eagle Logo"
         className="w-20 h-15 object-contain mb-3"
       />
       
       <div className="text-4xl font-extrabold tracking-wide mt-1 mb-3">
         <span className="bg-gradient-to-t from-[#00E68F] via-[#00B378] to-[#007F5E] bg-clip-text text-transparent">
-          HRS
+          EAGLE
         </span>{" "}
         <span className="bg-gradient-to-b from-[#00E68F] via-[#00B378] to-[#007F5E] bg-clip-text text-transparent">
           SAFE
@@ -50,29 +50,29 @@ const caseStats = {
   };
 const caseData = [
   {
-    officerName: "Duraisingam",
-    locality: "Thoothukudi",
+    officerName: "Pandey",
+    locality: "Garha",
     caseType: "Theft",
     description: "Stolen vehicle found in the locality.",
     status: "Resolved",
   },
   {
-    officerName: "Prabakaran",
-    locality: "Lawspet",
+    officerName: "Prabhsimran",
+    locality: "Gorakhpur",
     caseType: "Assault",
     description: "Physical assault case near the market.",
     status: "Investigating",
   },
   {
-    officerName: "Rajavelu",
-    locality: "Muthailpet",
+    officerName: "Raja",
+    locality: "Vijay nagar",
     caseType: "Fraud",
     description: "Online fraud involving stolen credit card information.",
     status: "Pending",
   },
   {
     officerName: "Balaji Venkatesh",
-    locality: "Theni",
+    locality: "Adhartal",
     caseType: "Missing Person",
     description: "A person went missing in the local park.",
     status: "Resolved",

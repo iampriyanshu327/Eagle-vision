@@ -243,14 +243,14 @@ function ChatBotPage() {
   return (
     <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-gray-900 p-6 space-y-6 lg:space-y-0 lg:space-x-8">
       <div className="flex flex-col items-center flex-1">
-        <img src="etherium.png" alt="ZenSafe Logo" className="w-24 h-auto object-contain mb-2" />
+        <img src="etherium.png" alt="Eagle Logo" className="w-24 h-auto object-contain mb-2" />
         <div className="text-4xl font-extrabold tracking-wide text-center">
-          <span className="bg-gradient-to-t from-green-400 via-green-500 to-green-600 bg-clip-text text-transparent">ZEN</span>{" "}
-          <span className="bg-gradient-to-b from-green-400 via-green-500 to-green-600 bg-clip-text text-transparent">SAFE</span>
+          <span className="bg-gradient-to-t from-green-400 via-green-500 to-green-600 bg-clip-text text-transparent">EAGLE</span>{" "}
+          <span className="bg-gradient-to-b from-green-400 via-green-500 to-green-600 bg-clip-text text-transparent">AI</span>
         </div>
 
         <Player autoplay loop src="Chatbot.json" className="w-48 h-48 my-4" />
-        <p className="text-gray-300 text-lg max-w-md text-center">Hey! I'm Zen, How can I help you?</p>
+        <p className="text-gray-300 text-lg max-w-md text-center">Hey! I'm Eagle, How can I help you?</p>
         <div className="flex space-x-4 mt-4">
           <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow" onClick={fetchCameras}>View CCTV Camera</button>
           <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow" onClick={() => setIsPopupOpen(true)}>Register CCTV Camera</button>
