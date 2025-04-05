@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Total Alerts Today",
+    "value": 50
+  },
+  {
+    "name": "Resolved Alerts",
+    "value": 40
+  },
+  {
+    "name": "Pending Alerts",
+    "value": 2
+  },
+  {
+    "name": "Critical Alerts",
+    "value": 1
+  },
+  {
+    "name": "Total Cameras",
+    "value": 250
+  },
+  {
+    "name": "Active Cameras",
+    "value": 235
+  },
+  {
+    "name": "Offline Cameras",
+    "value": 15
+  },
+  {
+    "name": "Cameras with Active Alerts",
+    "value": 40
+  }
+]
