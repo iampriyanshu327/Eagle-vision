@@ -17,10 +17,10 @@ const Logo = () => {
       {/* Logo Text */}
       <div className="text-xl font-bold tracking-wide mt-1">
         <span className="text-gradient bg-gradient-to-t from-[#00E68F] via-[#00B378] to-[#007F5E] bg-clip-text text-transparent">
-          ZEN
+          Eagle
         </span>{" "}
         <span className="text-gradient bg-gradient-to-b from-[#00E68F] via-[#00B378] to-[#007F5E] bg-clip-text text-transparent">
-          SAFE
+          Vision
         </span>
       </div>
 

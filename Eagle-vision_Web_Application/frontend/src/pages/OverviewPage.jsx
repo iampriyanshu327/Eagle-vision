@@ -126,7 +126,7 @@ const OverviewPage = () => {
             initial="initial"
             animate="animate"
           >
-            ZenSafe Dashboard
+            Eagle Vision Dashboard
           </motion.h1>
         </div>
         <div className="flex items-center space-x-4">

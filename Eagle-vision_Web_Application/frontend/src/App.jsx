@@ -35,7 +35,7 @@ function App() {
             />
             {/* Glowing Text */}
             <h1 className="text-5xl font-bold mb-2 text-white animate-highlight">
-              HRS APPLICATION
+              Eagle Vision
             </h1>
             <h2 className="text-2xl font-semibold text-green-300 animate-slide-in-delay">
             Decentralized Gen-AI based CCTV Surveillance and Protection

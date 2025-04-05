@@ -158,7 +158,7 @@ const NotifyPage = () => {
   return (
     <div className="flex h-screen bg-gradient-to-br from-blue-900 via-indigo-800 to-gray-900">
       <div className="w-64 bg-gray-800 text-white p-6 space-y-6 shadow-lg">
-        <h2 className="text-2xl font-bold ">ZEN SAFE</h2>
+        <h2 className="text-2xl font-bold ">Eagle Vision</h2>
         <button
           className="w-full p-4 bg-blue-600 hover:bg-blue-700 rounded-lg flex items-center gap-3 transition-all hover:scale-105"
           onClick={() => handleAddUserClick("resident")}

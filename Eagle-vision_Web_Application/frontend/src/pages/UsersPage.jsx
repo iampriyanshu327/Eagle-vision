@@ -28,7 +28,7 @@ const ContentWithLottie = () => (
       
       <div className="text-4xl font-extrabold tracking-wide mt-1 mb-3">
         <span className="bg-gradient-to-t from-[#00E68F] via-[#00B378] to-[#007F5E] bg-clip-text text-transparent">
-          ZEN
+          HRS
         </span>{" "}
         <span className="bg-gradient-to-b from-[#00E68F] via-[#00B378] to-[#007F5E] bg-clip-text text-transparent">
           SAFE

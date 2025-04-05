@@ -312,7 +312,7 @@ function ChatBotPage() {
           {isChatExpanded ? (
             <>
               <div className="bg-gray-900 p-3 flex justify-between items-center">
-                <p className="text-gray-300 text-sm">HRS Chatbot</p>
+                <p className="text-gray-300 text-sm">Eagle Vision Chatbot</p>
                 <button className="text-gray-300 hover:text-white text-lg" onClick={() => setIsChatExpanded(false)}>×</button>
               </div>
               <div className="flex-1 p-4 overflow-y-auto flex flex-col space-y-3">
