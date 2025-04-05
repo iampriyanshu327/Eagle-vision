@@ -11,7 +11,7 @@ const http = require("http");
 const path = require("path");
 
 const { checkAlerts } = require("./src/services/caseService.js");
-dotenv.config();
+dotenv.config()
 
 // Initialize express app
 const app = express();
@@ -37,7 +37,7 @@ app.use("/api/residents", residentRoutes);
 app.use("/api/authorities", authorityRoutes);
 app.use("/api/mail", mailRoutes);
 
-setInterval(checkAlerts, 5000);  
+setInterval(checkAlerts, 5000); 
 
 // Start server
 const PORT = process.env.PORT || 5000;
