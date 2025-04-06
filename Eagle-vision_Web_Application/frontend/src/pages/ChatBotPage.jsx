@@ -117,7 +117,7 @@ function ChatBotPage() {
 
     {isTyping && (
       <div className="self-start bg-gray-300 text-gray-800 p-3 rounded-lg w-fit max-w-[75%] shadow-md">
-        <span className="animate-pulse">Zen is typing...</span>
+        <span className="animate-pulse">Eagle is typing...</span>
       </div>
     )}
 

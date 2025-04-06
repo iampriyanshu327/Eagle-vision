@@ -27,7 +27,7 @@ const OverviewPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [account, setAccount] = useState(null);
   const [balance, setBalance] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);    
 
   const connectWallet = async () => {
     if (!window.ethereum) return alert("MetaMask not detected. Please install it.");

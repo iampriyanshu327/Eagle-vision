@@ -70,7 +70,7 @@ def get_response_from_mistral(query):
         context = "\n".join([doc.page_content for doc in relevant_docs])
         
         system_prompt = (
-            "You are ZenSafe Bot, an AI assistant designed to aid law enforcement in evidence retrieval from CCTV footage. "
+            "You are Eagle Bot, an AI assistant designed to aid law enforcement in evidence retrieval from CCTV footage. "
             "You are provided with textual descriptions of CCTV footage, captured at one-second intervals. "
             "Law enforcement officers will query this data to gather evidence related to crimes. "
             "Each description includes a timestamp and a detailed caption of the scene. "
